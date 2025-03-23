@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Manage Tables</title>
+        <style>
+            body {
+                background: #ffffff;
+                font-family: sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                color: black;
+            }
+            .container {
+                width: 90%;
+                max-width: 1000px;
+            }
+            h1 {
+                text-align: center;
+                color: #ff9f1a;
+            }
+            .form-card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(255, 159, 26, 0.7);
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            .table-cards {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                justify-content: center;
+                padding: 20px 0;
+            }
+            @media (max-width: 900px) {
+                .table-cards {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media (max-width: 600px) {
+                .table-cards {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+            }
+            .table-card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                padding: 15px;
+                transition: transform 0.3s ease;
+            }
+            .table-card:hover {
+                transform: scale(1.05);
+            }
+            .table-info {
+                margin-bottom: 10px;
+            }
+            .action-btn {
+                background: red;
+                color: white;
+                padding: 6px 10px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 14px;
+                transition: background 0.3s;
+                margin: 5px;
+            }
+            .action-btn:hover {
+                background: darkred;
+            }
+            input, select {
+                width: 90%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+            input[type="submit"] {
+                background: #ff9f1a;
+                color: white;
+                border: none;
+                cursor: pointer;
+                padding: 10px;
+                border-radius: 5px;
+                transition: background 0.3s;
+            }
+            input[type="submit"]:hover {
+                background: #e08916;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Manage Tables</h1>
+    
+            <!-- Form Section -->
+            <div class="form-card">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td><strong>Table Number</strong></td>
+                            <td><input type="number" name="num_table" id="num_table" pattern="^\d+$" required></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Seat Count</strong></td>
+                            <td><input type="number" name="num_seat" id="num_seat" pattern="^\d+$" required></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="submit" value="Add"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+    
+            <!-- Table Cards Section -->
+            <div class="table-list">
+                <h2>Tables</h2>
+                <div class="table-cards">
+                    {% for i in table %}
+                    <div class="table-card">
+                        <div class="table-info">
+                            <h3>Table {{ i.table_number }}</h3>
+                            <p><b>Seats:</b> {{ i.table_count }}</p>
+                        </div>
+                        <a href="" class="action-btn">Edit</a>
+                        <a href="" class="action-btn">Delete</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

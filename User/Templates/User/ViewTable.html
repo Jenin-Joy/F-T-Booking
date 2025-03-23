@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .table {
+            width: 25px;
+            border-radius: 10px;
+            height: 25px;
+            background-color: transparent;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tb {
+            display: flex;
+        }
+
+        .seat {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .seatnum {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .seatcount {
+            position: absolute;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+        input[type="date"], input[type="time"], button{
+            padding: 10px;
+            border: 1px solid gray;
+            border-radius: 10px;
+        }
+        .booking-form {
+        max-width: 800px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+
+    .booking-form td {
+        padding: 10px;
+        color: #2c3e50;
+    }
+
+    .booking-form input[type="date"],
+    .booking-form input[type="time"] {
+        padding: 10px 15px;
+        border: 2px solid #eee;
+        border-radius: 8px;
+        font-size: 1em;
+        width: 160px;
+        transition: border-color 0.3s ease;
+    }
+
+    .booking-form input[type="date"]:focus,
+    .booking-form input[type="time"]:focus {
+        border-color: #3498db;
+        outline: none;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    }
+
+    .booking-form button {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .booking-form button:hover {
+        background: #219653;
+    }
+
+    .booking-form .home {
+        background: #8e44ad;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.3s ease;
+    }
+
+    .booking-form .home:hover {
+        background: #7d3c98;
+    }
+    </style>
+</head>
+
+<body onload="getTable(),checkbooking()">
+    <form action="" method="post">
+        {% csrf_token %}
+        <table align="center" cellpadding="10" class="booking-form">
+            <tr>
+                <td>Date</td>
+                <td><input type="date" name="txt_date" id="txt_date" onchange="getTable()"></td>
+                <td>Time</td>
+                <td><input type="time" name="txt_time" id="txt_time" onchange="getTable()"></td>
+                <td><button type="submit">Book</button></td>
+                <td><a href="{% url 'User:Homepage' %}" class="home">Home</a></td>
+            </tr>
+        </table>
+        <div id="result"></div>
+        <!-- <table>
+            <tr>
+                <td>Table</td>
+                <td>Seat</td>
+                <td>Status<td>
+            </tr>
+            {% for i in table %}
+            <tr>
+                <td>{{i.table_number}}</td>
+                <td>{{i.table_count}}</td>
+                <td>
+                    {% if i.table_status == 1 %}
+                    <span>Reserevrd</span>
+                    {% else %}
+                    <span>Available|<a href="{% url 'User:Reservation' i.id %}">Book</a></span>
+                    {% endif %}
+                    </td>
+            </tr>
+            {% endfor%}
+        </table> -->
+    </form>
+    {% if msg %}
+    <script>
+        alert("{{ msg }}")
+        window.location = "{% url 'User:ViewTable' %}"
+    </script>
+    {% endif %}
+</body>
+
+</html>
+<script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('txt_date').setAttribute('min', today);
+  </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function getTable() {
+        var date = document.getElementById("txt_date").value
+        var time = document.getElementById("txt_time").value
+        var ur = "{% url 'User:ajaxgettable' %}"
+        $.ajax({
+            url: ur,
+            data: { date: date, time: time },
+            success: function (data) {
+                $("#result").html(data);
+                bookedtable()
+            },
+        });
+    }
+
+    function getTableCount(number, table) {
+        var ur = "{% url 'User:ajaxgettablecount' %}";
+
+        $.ajax({
+            url: ur,
+            data: { table: table },
+            success: function (data) {
+                let seatMessage = document.getElementById("seatcount" + number);
+                seatMessage.innerHTML = "Seat Count: " + data.count;
+                seatMessage.style.opacity = "1"; // Make it visible
+
+                // Ensure the fade-out effect is removed while hovered
+                seatMessage.style.transition = "none";
+            }
+        });
+    }
+
+    // Function to fade out when mouse leaves
+    function fadeOutSeatCount(number) {
+        let seatMessage = document.getElementById("seatcount" + number);
+
+        // Apply fade-out after 5 seconds
+        setTimeout(() => {
+            seatMessage.style.transition = "opacity 1s ease"; // Smooth transition
+            seatMessage.style.opacity = "0"; // Fade out
+        }, 100);
+    }
+
+    function checkbooking() {
+        var ur = "{% url 'User:bookchecking' %}"
+        const now = new Date();
+        const min = now.getMinutes();
+        const hour = now.getHours();
+        // console.log(min);
+        $.ajax({
+            url: ur,
+            data: { min: min, hour: hour },
+            success: function (data) {
+                // $("#sel_place").html(data);
+                // alert(min)
+            },
+        });
+    }
+</script>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Change Password</title>
+        <style>
+            body {
+                background: #ffffff;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 20px;
+                color: black;
+            }
+            .profile-card {
+                width: 90%;
+                max-width: 400px;
+                background: white;
+                border-radius: 10px;
+                border-top: 5px solid #ff9f1a;
+                box-shadow: 0px 4px 10px rgba(255, 159, 26, 0.7);
+                overflow: hidden;
+                margin-top: 20px;
+                padding-bottom: 10px;
+                text-align: center;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+            }
+            th, td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            tr:last-child td {
+                border-bottom: none;
+            }
+            tr:nth-child(even) {
+                background: #f9f9f9;
+            }
+            a, input[type="submit"] {
+                display: inline-block;
+                padding: 6px 12px;
+                background: #ff9f1a;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+            a:hover, input[type="submit"]:hover {
+                background: #e08916;
+            }
+            input[type="password"] {
+                width: 90%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="color: #ff9f1a;">Change Password</h1>
+        <div class="profile-card">
+            <form action="" method="post">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td><strong>Old Password</strong></td>
+                        <td><input type="password" name="txt_old" id="txt_old" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>New Password</strong></td>
+                        <td><input type="password" name="txt_new" id="txt_new" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Re-type Password</strong></td>
+                        <td><input type="password" name="txt_re" id="txt_re" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" id="btn_submit" name="btn_submit" value="Change Password">
+                            <input type="submit" id="btn_cancel" name="btn_cancel" value="Cancel">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'User:ChangePass' %}"
+</script>
+{% endif %}

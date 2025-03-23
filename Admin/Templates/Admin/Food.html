@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Food Entry</title>
+        <style>
+            body {
+                background: #ffffff;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 20px;
+                color: black;
+            }
+            .food-form {
+                width: 40%;
+                max-width: 400px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(255, 159, 26, 0.7);
+                overflow: hidden;
+                padding: 20px;
+                text-align: center;
+            }
+            h1 {
+                color: #ff9f1a;
+            }
+            table {
+                width: 100%;
+            }
+            td {
+                padding: 8px;
+            }
+            input[type="text"], input[type="file"], select {
+                width: 90%;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                text-align: center;
+            }
+            input[type="submit"] {
+                display: inline-block;
+                padding: 8px 16px;
+                background: #ff9f1a;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+            input[type="submit"]:hover {
+                background: #e08916;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="food-form">
+            <h1>Food Entry</h1>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><input type="text" name="txt_name" id="txt_name" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Details</strong></td>
+                        <td><input type="text" name="txt_details" id="txt_details" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Price</strong></td>
+                        <td><input type="text" name="txt_price" id="txt_price" pattern="^?\d+(\.\d+)?$" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Category</strong></td>
+                        <td>
+                            <select name="sel_category" id="sel_category">
+                                <option value="">---SELECT---</option>
+                                {% for i in cat %}
+                                <option value="{{i.id}}">{{i.category_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Subcategory</strong></td>
+                        <td>
+                            <select name="sel_subcategory" id="sel_subcategory">
+                                <option value="">---SELECT---</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Photo</strong></td>
+                        <td><input type="file" name="txt_photo" id="txt_photo" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Submit"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#sel_category").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Admin:ajaxfood' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#sel_subcategory").html(data);
+            },
+        });
+    });
+</script>

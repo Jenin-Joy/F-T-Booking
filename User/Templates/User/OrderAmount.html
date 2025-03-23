@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Orders</title>
+        <style>
+            body {
+                background: #ffffff;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 20px;
+                color: black;
+            }
+            .order-card {
+                width: 100%;
+                max-width: 600px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(255, 159, 26, 0.7);
+                overflow: hidden;
+                margin-top: 20px;
+                padding-bottom: 10px;
+            }
+            .header-bar {
+                width: 100%;
+                background: #ff9f1a;
+                color: white;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                padding: 10px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+            }
+            th {
+                background: #ff9f1a;
+                color: white;
+                padding: 12px;
+            }
+            th, td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            tr:last-child td {
+                border-bottom: none;
+            }
+            tr:nth-child(even) {
+                background: #f9f9f9;
+            }
+            a {
+                display: inline-block;
+                padding: 6px 12px;
+                background: #ff9f1a;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background 0.3s;
+            }
+            a:hover {
+                background: #e08916;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="color: #ff9f1a;">Orders</h1>
+        <div class="order-card">
+            <div class="header-bar">Order Summary</div>
+            <table>
+                <tr>
+                    <th>SI No</th>
+                    <th>Amount</th>
+                    <th>Details</th>
+                </tr>
+                {% for i in booking %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>Rs. {{ i.booking_amount }}</td>
+                    <td><a href="{% url 'User:MyOrders' i.id %}">More</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>

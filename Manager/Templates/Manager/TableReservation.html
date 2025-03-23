@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        {%csrf_token%}
+        <table>
+            <tr>
+                <td>SI NO</td>
+                <td>Table Number</td>
+                <td>Reservation Name</td>
+                <td>Seats</td>
+                <td>Date</td>
+                <td>Time</td>
+            </tr>
+            {% for i in table%}
+            <tr>
+                <td>{{ forloop.counter}}</td>
+                <td>{{i.table.table_number}}</td>
+                <td>{{i.user.user_name}}</td>
+                <td>{{i.table.table_count}}</td>
+                <td>{{i.tablebooking_date}}</td>
+                <td>{{i.tablebooking_time}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+    </form>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update Time</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                background: white;
+                text-align: center;
+                padding: 20px;
+            }
+            .form-container {
+                max-width: 400px;
+                margin: auto;
+                padding: 20px;
+                background: #fff;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+            }
+            table {
+                width: 100%;
+            }
+            td {
+                padding: 10px;
+                text-align: left;
+            }
+            input {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 16px;
+            }
+            input[type="submit"] {
+                background: #ff9f1a;
+                color: black;
+                font-weight: bold;
+                cursor: pointer;
+                border: none;
+                padding: 10px;
+                border-radius: 5px;
+                width: 100%;
+            }
+            input[type="submit"]:hover {
+                background: #e88b10;
+            }
+        </style>
+    </head>
+    <body>
+    
+        <h1>Update Time</h1>
+    
+        <div class="form-container">
+            <form action="" method="post">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>From time</td>
+                        <td><input type="time" name="txt_frmtime" id="txt_frmtime" required></td>
+                    </tr>
+                    <tr>
+                        <td>To time</td>
+                        <td><input type="time" name="txt_totime" id="txt_totime" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" value="Update">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    
+    </body>
+</html>

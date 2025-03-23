@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Profile</title>
+        <style>
+            body {
+                background: #ffffff;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 20px;
+                color: black;
+            }
+            .profile-card {
+                width: 100%;
+                max-width: 400px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(255, 159, 26, 0.7);
+                overflow: hidden;
+                margin-top: 20px;
+                padding-bottom: 10px;
+                text-align: center;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+            }
+            th, td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            tr:last-child td {
+                border-bottom: none;
+            }
+            tr:nth-child(even) {
+                background: #f9f9f9;
+            }
+            a {
+                display: inline-block;
+                padding: 6px 12px;
+                background: #ff9f1a;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background 0.3s;
+            }
+            a:hover {
+                background: #e08916;
+            }
+            img {
+                width: 100%;
+                height: auto;
+                border-radius: 10px 10px 0 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="color: #ff9f1a;">My Profile</h1>
+        <div class="profile-card">
+            <img src="{{User.user_photo.url}}" alt="Profile Picture">
+            <table>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>{{User.user_name}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email</strong></td>
+                    <td>{{User.user_email}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Contact</strong></td>
+                    <td>{{User.user_contact}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Address</strong></td>
+                    <td>{{User.user_address}}</td>
+                </tr>
+                <tr>
+                    <td><strong>District</strong></td>
+                    <td>{{User.place.district.district_name}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Place</strong></td>
+                    <td>{{User.place.place_name}}</td>
+                </tr>
+                <tr>
+                    <td><a href="{% url 'User:EditProfile' %}">Edit Profile</a></td>
+                    <td><a href="{% url 'User:ChangePass' %}">Change Password</a></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

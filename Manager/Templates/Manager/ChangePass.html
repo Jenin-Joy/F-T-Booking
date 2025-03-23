@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        <table border="2">
+            {% csrf_token %}
+            <tr>
+                <td>Old Password</td>
+                <td><input type="password" name="txt_old" id="txt_old" required></td>
+            </tr>
+            <tr>
+                <td>New Password</td>
+                <td><input type="password" name="txt_new" id="txt_new"pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required></td>
+            </tr>
+            <tr>
+                <td>Re-type Password</td>
+                <td><input type="password" name="txt_re" id="txt_re"pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" id="btn_submit" name="btn_submit" value="Change Password">
+                <input type="submit" id="btn_cancel" name="btn_cancel" value="Cancel"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Manager:ChangePass' %}"
+</script>
+{% endif %}

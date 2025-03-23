@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h1>Reservation</h1>
+        <table>
+            <tr>
+                <td>For date</td>
+                <td><input type="date" name="txt_date" id="txt_date"required></td>
+            </tr>
+            <tr>
+                <td>Time</td>
+                <td><input type="time" name="txt_time" id="txt_time"required></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Reserve"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Job List</title>
+        <style>
+            body {
+                background: #ffff;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 20px;
+                color: black;
+            }
+            .job-container {
+                width: 100%;
+                max-width: 800px;
+                margin-top: 20px;
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                border-top: 5px solid #ff9f1a;
+                box-shadow: 0px 4px 10px rgba(255, 159, 26, 0.7);
+                position: relative;
+            }
+            .header-bar {
+            width: calc(100% + 40px);
+            background: #ff9f1a;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            /* padding: 10px; */
+            border-radius: 10px 10px 0 0;
+            position: absolute;
+            top: -10px;
+            left: -20px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            a {
+                display: inline-block;
+                padding: 10px 15px;
+                background: #ff9f1a;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background 0.3s;
+            }
+            a:hover {
+                background: #e08916;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="color: #ff9f1a;">Job List</h1>
+        <div class="job-container">
+            <div class="header-bar"></div>
+            <table>
+                {% for i in job %}
+                <tr>
+                    <td>Title</td>
+                    <td>{{i.job_name}}</td>
+                </tr>
+                <tr>
+                    <td>Details</td>
+                    <td>{{i.job_details}}</td>
+                </tr>
+                <tr>
+                    <td>Working Hours</td>
+                    <td>{{i.job_hours}}</td>
+                </tr>
+                <tr>
+                    <td>Salary</td>
+                    <td>Rs. {{i.job_salary}}</td>
+                </tr>
+                <tr>
+                    <td>Post Date</td>
+                    <td>{{i.job_postdate}}</td>
+                </tr>
+                <tr>
+                    <td>Valid Date</td>
+                    <td>{{i.job_validdate}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;"><a href="{% url 'User:Apply' i.id %}">Apply Now</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>

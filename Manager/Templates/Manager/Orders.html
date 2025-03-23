@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Order List</title>
+        <style>
+            body {
+                background: #ffffff;
+                font-family: sans-serif;
+                color: black;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }
+            .container {
+                width: 90%;
+                max-width: 1200px;
+            }
+            h1 {
+                text-align: center;
+                color: #ff9f1a;
+            }
+            .order-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                justify-content: center;
+                padding: 20px 0;
+            }
+            @media (max-width: 900px) {
+                .order-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media (max-width: 600px) {
+                .order-grid {
+                    grid-template-columns: repeat(1, 1fr);
+                }
+            }
+            .order-card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                padding: 15px;
+                transition: transform 0.3s ease;
+                text-align: center;
+                border-left: 5px solid #ff9f1a;
+            }
+            .order-card:hover {
+                transform: scale(1.05);
+            }
+            .order-info {
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+            .status {
+                padding: 5px 10px;
+                border-radius: 5px;
+                color: white;
+                font-size: 14px;
+                display: inline-block;
+                margin-top: 10px;
+            }
+            .status-paid { background: green; }
+            .status-pickup { background: blue; }
+            .status-completed { background: gray; }
+            .action-btn {
+                background: #ff9f1a;
+                color: white;
+                padding: 6px 10px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 14px;
+                transition: background 0.3s;
+                display: inline-block;
+                margin-top: 10px;
+            }
+            .action-btn:hover {
+                background: #e08916;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Order List</h1>
+    
+            <div class="order-grid">
+                {% for i in order %}
+                <div class="order-card">
+                    <div class="order-info">
+                        <strong>User:</strong> {{ i.booking.user.user_name }}<br>
+                        <strong>Email:</strong> {{ i.booking.user.user_email }}<br>
+                        <strong>Contact:</strong> {{ i.booking.user.user_contact }}<br>
+                        <strong>Address:</strong> {{ i.booking.user.user_address }}<br>
+                        <strong>Item:</strong> {{ i.food.food_name }}<br>
+                        <strong>Quantity:</strong> {{ i.cart_qty }}<br>
+                        <strong>Total:</strong> ₹{{ i.booking.booking_amount }}
+                    </div>
+    
+                    <div class="status 
+                        {% if i.booking.booking_status == 2 %} status-paid 
+                        {% elif i.booking.booking_status == 3 %} status-pickup 
+                        {% else %} status-completed {% endif %}">
+                        {% if i.booking.booking_status == 2 %}
+                            Payment Completed <br>
+                            <a href="{% url 'Manager:pick' i.id %}" class="action-btn">Pick Order</a>
+                        {% elif i.booking.booking_status == 3 %}
+                            Ready for Pickup <br>
+                            <a href="{% url 'Manager:done' i.id %}" class="action-btn">Order Picked</a>
+                        {% else %}
+                            Pickup Completed
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+</html>
+{% if msg %}
+<script>
+    alert('{{msg}}');
+    window.location="{% url 'Manager:Orders' %}"
+</script>
+{% endif %}
+{% if msg2 %}
+<script>
+    alert('{{msg2}}');
+    window.location="{% url 'Manager:Orders' %}"
+</script>
+{% endif %}

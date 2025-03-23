@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Job Applicants</title>
+        <style>
+            body {
+                background: #ffffff;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 20px;
+                color: black;
+            }
+            .applicant-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                width: 90%;
+                max-width: 1200px;
+                margin-top: 20px;
+            }
+            .applicant-card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0px 4px 10px rgba(255, 159, 26, 0.7);
+                padding: 20px;
+                text-align: center;
+                transition: background 0.3s;
+            }
+            .applicant-card:hover {
+                background: #ffe5b4;
+            }
+            .resume-img {
+                height: 100px;
+                width: 70px;
+                cursor: pointer;
+                transition: transform 0.3s;
+                border-radius: 5px;
+            }
+            .resume-img:hover {
+                transform: scale(1.1);
+            }
+            h2 {
+                color: #ff9f1a;
+            }
+            .resume-btn {
+    background: #ff9f1a;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 14px;
+}
+
+.resume-btn:hover {
+    background: #e08916;
+}
+
+        </style>
+    </head>
+    <body>
+        <h1 style="color: #ff9f1a;">Job Applicants</h1>
+        <div class="applicant-container">
+            {% for i in job %}
+            <div class="applicant-card">
+                <P><img src="{{ i.user.user_photo.url }}" class="resume-img"></P>
+                <h2>{{ i.user.user_name }}</h2>
+                <p><strong>Email:</strong> {{ i.user.user_email }}</p>
+                <p><strong>Contact:</strong> {{ i.user.user_contact }}</p>
+                <a href="{{ i.request_file.url }}" target="_blank">
+                    <button class="resume-btn">View Resume</button>
+                </a>
+                
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
