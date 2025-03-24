@@ -62,6 +62,10 @@
                 font-size: 16px;
                 margin-top: 5px;
             }
+            a{
+                text-decoration: none;
+                color: orange;
+            }
         </style>
     </head>
     <body>
@@ -74,6 +78,7 @@
                     <img src="{{i.staff_photo.url}}" alt="Staff Photo">
                     <div class="staff-name">{{i.staff_name}}</div>
                     <div class="staff-role">{{i.stype.stafftype_name}}</div>
+                    <div><a href="{% url 'Manager:viewsalary' i.id %}">View Salary</a></div>
                 </div>
             </a>
             {% endfor %}

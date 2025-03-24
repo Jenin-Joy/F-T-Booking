@@ -3,6 +3,7 @@ from Admin.models import*
 from Guest.models import*
 from Manager.models import*
 from User.models import*
+from datetime import date
 
 # Create your views here.
 def Staff(request):
@@ -128,3 +129,27 @@ def TableReservation(request):
         return render(request, 'Manager/TableReservation.html',{'table':table})
     else:
         return redirect("Guest:Login")
+
+def viewsalary(request, id):
+    salary = tbl_salary.objects.filter(staff=id)
+    return render(request,"Manager/ViewSalary.html",{'salary':salary,"id":id})
+
+def addsalary(request, id):
+    dt = date.today()
+    sal = tbl_salary.objects.filter(staff=id,salary_date__month=dt.month).count()
+    if sal > 0:
+        return render(request, "Manager/ViewSalary.html", {"msg": "Salary for this month already payed.","id":id})
+    else:
+        if request.method == "POST":
+            tbl_salary.objects.create(
+                staff = tbl_staff.objects.get(id=id),
+                salary_amount = request.POST.get('txt_amount')
+            )
+            return redirect('Manager:loader')
+        return render(request,"Manager/Payment.html")
+
+def loader(request):
+    return render(request,"Manager/Loader.html")
+
+def paymentsuc(request):
+    return render(request,"Manager/Payment_suc.html")

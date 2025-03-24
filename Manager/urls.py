@@ -15,4 +15,8 @@ urlpatterns = [
      path ('pick/<int:id>',views.pick,name='pick'),
      path ('done/<int:did>',views.done,name='done'),
      path ('TableReservation/',views.TableReservation,name='TableReservation'),
+     path ('viewsalary/<int:id>',views.viewsalary,name='viewsalary'),
+     path ('addsalary/<int:id>',views.addsalary,name='addsalary'),
+     path('loader/',views.loader, name='loader'),
+     path('paymentsuc/',views.paymentsuc, name='paymentsuc'),
 ]

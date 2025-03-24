@@ -3,31 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Table Reservations</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .booking-card {
+            padding: 25px;
+            border-bottom: 1px solid #eee;
+            transition: transform 0.3s ease;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-5px);
+            background: #f9f9f9;
+        }
+
+        .booking-card:last-child {
+            border-bottom: none;
+        }
+
+        .booking-date {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            background: #f1f3f5;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #555;
+        }
+
+        .status-paid {
+            color: #27ae60;
+            font-weight: bold;
+            background: #e8f5e9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .status-pending {
+            color: #e74c3c;
+            font-weight: bold;
+            background: #feeceb;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .payment-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .payment-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .table-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .table-info i {
+            color: #8e44ad;
+            font-size: 1.3em;
+        }
+
+        .table-details {
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <form action="" method="post">
-        {%csrf_token%}
-        <table>
-            <tr>
-                <td>SI NO</td>
-                <td>Table Number</td>
-                <td>Reservation Name</td>
-                <td>Seats</td>
-                <td>Date</td>
-                <td>Time</td>
-            </tr>
-            {% for i in table%}
-            <tr>
-                <td>{{ forloop.counter}}</td>
-                <td>{{i.table.table_number}}</td>
-                <td>{{i.user.user_name}}</td>
-                <td>{{i.table.table_count}}</td>
-                <td>{{i.tablebooking_date}}</td>
-                <td>{{i.tablebooking_time}}</td>
-            </tr>
-            {%endfor%}
-        </table>
-    </form>
+    <div class="booking-container">
+        {% for i in table %}
+        <div class="booking-card">
+            <div class="booking-date">
+                Date: {{i.tablebooking_date}}
+            </div>
+            <div class="booking-details">
+                <div class="detail-item">
+                    User: {{i.user.user_name}}
+                </div>
+                <div class="detail-item">
+                    To Date: {{i.tablebooking_fordate}}
+                </div>
+                <div class="detail-item">
+                    Time: {{i.tablebooking_time}}
+                </div>
+                <div class="detail-item">
+                    Amount: ${{i.tablebooking_amount}}
+                </div>
+                <div class="detail-item">
+                    {% if i.tablebooking_status == 1 %}
+                        <span class="status-paid">Payment Complete</span>
+                    {% else %}
+                        <span class="status-pending">Not Paid</span> | 
+                        <a href="" class="payment-link">Make Payment</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% for tb in i.tbl_bookedtable_set.all %}
+            <div class="table-info">
+                <i class="fa-solid fa-utensils"></i>
+                <div class="table-details">
+                    Table #{{tb.table.table_number}} 
+                    (Capacity: {{tb.table.table_count}})
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:first-child {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:hover:not(:first-child) {
+            background-color: #f5f5f5;
+        }
+
+        td:nth-child(1) {
+            width: 10%;
+        }
+
+        td:nth-child(2) {
+            width: 45%;
+        }
+
+        td:nth-child(3) {
+            width: 45%;
+            text-align: right;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>#</td>
+            <td>Date</td>
+            <td>Amount</td>
+        </tr>
+        {% for i in salary %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.salary_date}}</td>
+            <td>{{i.salary_amount}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td><a href="{% url 'Manager:addsalary' id %}">Add Salary</a></td>
+        </tr>
+    </table>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location = "{% url 'Manager:viewsalary' id %}"
+    </script>
+    {% endif %}
+</body>
+</html>

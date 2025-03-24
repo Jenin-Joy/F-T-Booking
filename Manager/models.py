@@ -11,3 +11,8 @@ class tbl_schedule(models.Model):
     schedule_work=models.CharField(max_length=50)
     Schedule_work_fromtime=models.CharField(max_length=30)
     Schedule_work_totime=models.CharField(max_length=30)
+
+class tbl_salary(models.Model):
+    salary_amount=models.CharField(max_length=30)
+    staff=models.ForeignKey(tbl_staff,on_delete=models.CASCADE)
+    salary_date=models.DateField(auto_now_add=True)
