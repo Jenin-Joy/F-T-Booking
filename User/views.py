@@ -134,6 +134,8 @@ def ViewTable(request):
             seat = request.POST.getlist("txttable[]")
             time = request.POST.get("txt_time")
             day = request.POST.get("txt_date")
+            selected_datetime = datetime.strptime(f"{day} {time}", "%Y-%m-%d %H:%M")
+            limit_time = datetime.now() + timedelta(hours=1)
             if seat == [] or seat == '' or day == '':
                 return render(request, "User/ViewTable.html",{"msg": "Please select a seat, date and time"})
             else:
@@ -147,8 +149,7 @@ def ViewTable(request):
                         )
                     return redirect("User:Tablepayment",bk.id)
                 else:
-                    ti = datetime.strptime(time, "%H:%M")
-                    if datetime.now() > ti:
+                    if selected_datetime < limit_time:
                         return render(request, "User/ViewTable.html", {"msg": "Time already passed"})
                     else:
                         time_obj = datetime.strptime(time, "%H:%M")  # Convert string to datetime object
